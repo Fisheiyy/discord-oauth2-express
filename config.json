@@ -2,12 +2,12 @@
     "port": "80",
     "oauth2": {
         "redirect_uri": "http://localhost/login/callback", 
-        "client_id": "895869502447837204",
-        "client_secret": "9ARPERK78-SyvPIMd_nJv_-U2W5yB8V4",
+        "client_id": "",
+        "client_secret": "",
         "scopes": ["identify"]
     },
     "session": {
-        "secret": "youshallnotpass",
+        "secret": "123",
         "cookie": {
             "maxAge": 86400000
         },
