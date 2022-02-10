@@ -1,0 +1,21 @@
+<button onclick="window.location.replace(`/login/refresh`)">Refresh Token</button>
+<button onclick="window.location.replace(`/login`">Login</button>
+<button onclick="window.location.replace(`/logout`)">Logout</button>
+<div id="signedIn">
+    <h1>Hello, <%= json.username %> #<%= json.discriminator %></h1>
+    <img src="https://cdn.discordapp.com/avatars/<%= json.id %>/<%= json.avatar %>?size=512">
+</div>
+<div id="signedOut">
+    <h1>You are not signed in, please click the Login button above</h1>
+</div>
+<script>
+    var signedIn = <%= JSON.stringify(signedIn) %>;
+    console.log(signedIn);
+    if (signedIn === false) {
+        document.getElementById("signedIn").hidden = true;
+        document.getElementById("signedOut").hidden = false;
+    } else {
+        document.getElementById("signedIn").hidden = false;
+        document.getElementById("signedOut").hidden = true;
+    }
+</script>
