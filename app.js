@@ -11,7 +11,7 @@ app.set('view engine', 'ejs')
 app.get('/', async (req, res) => {
     if (req.headers.cookie == undefined) {
         console.log('No Cookies Found')
-        res.render('index.html', { signedIn: false, json: {} })
+        res.render('index.html', { signedIn: false, tokenRefreshed: 'false', json: {} })
     }
     if (req.headers.cookie !== undefined) {
         console.log('Cookies Found')
@@ -31,7 +31,13 @@ app.get('/', async (req, res) => {
             var bearer_token = req.headers.cookie.split('bearer_token=')[1].split(';')[0]
             var data = await fetch(`https://discord.com/api/users/@me`, {headers: { Authorization: `Bearer ${bearer_token}` } }) // Fetching user data
             var json = await data.json()
-            res.render('index.html', { res, json })
+            if (req.query.tokenrefreshed == 'true') {
+                console.log('Token Refreshed')
+                res.render('index.html', { signedIn: true, tokenRefreshed: true, json })
+            }
+            else {
+                res.render('index.html', { signedIn: true, tokenRefreshed: false, json })
+            }
         }
     }
 })
@@ -84,7 +90,7 @@ app.get('/login/refresh', async (req, res) => {
     res.cookie("bearer_token", json.access_token, { maxAge: json.expires_in * 1000 })
     res.cookie("refresh_token", json.refresh_token)
     console.log('New Bearer and Refresh tokens set')
-    res.redirect('/') // Redirecting to main page
+    res.redirect('/?tokenrefreshed=true') // Redirecting to main page
 })
 
 app.get('/logout', (req, res) => {

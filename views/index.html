@@ -1,21 +1,39 @@
-<button onclick="window.location.replace(`/login/refresh`)">Refresh Token</button>
-<button onclick="window.location.replace(`/login`">Login</button>
-<button onclick="window.location.replace(`/logout`)">Logout</button>
+<div id="refreshedTokenNotification">
+    <h1>Your token was successfully refreshed!</h1>
+</div>
 <div id="signedIn">
     <h1>Hello, <%= json.username %> #<%= json.discriminator %></h1>
     <img src="https://cdn.discordapp.com/avatars/<%= json.id %>/<%= json.avatar %>?size=512">
 </div>
 <div id="signedOut">
-    <h1>You are not signed in, please click the Login button above</h1>
+    <h1>You are not signed in, please click the Login button below</h1>
+</div>
+<div id="refreshTokenButton">
+    <button onclick= "window.location.replace(`/login/refresh`)" >Refresh Token</button>
+</div>
+<div id="loginButton">
+    <button onclick= "window.location.replace(`/login`)" >Login</button>
+</div>
+<div id="logoutButton">
+    <button onclick= "window.location.replace(`/logout`)" >Logout</button>
 </div>
 <script>
-    var signedIn = <%= JSON.stringify(signedIn) %>;
-    console.log(signedIn);
-    if (signedIn === false) {
-        document.getElementById("signedIn").hidden = true;
-        document.getElementById("signedOut").hidden = false;
-    } else {
-        document.getElementById("signedIn").hidden = false;
-        document.getElementById("signedOut").hidden = true;
+    var signedIn = <%= signedIn %>
+    var tokenRefreshed = <%= tokenRefreshed %>
+    if (signedIn == false) {
+        document.getElementById("signedIn").hidden = true
+        document.getElementById("signedOut").hidden = false
+        document.getElementById("logoutButton").hidden = true
+        document.getElementById("refreshTokenButton").hidden = true
+        document.getElementById("refreshedTokenNotification").hidden = true    
+    }
+    if (tokenRefreshed == true) {
+        document.getElementById("refreshedTokenNotification").hidden = false
+        document.getElementById("signedOut").hidden = true
+    }
+    if (signedIn == true) {
+        document.getElementById("loginButton").hidden = true
+        document.getElementById("signedOut").hidden = true
+        document.getElementById("refreshedTokenNotification").hidden = true    
     }
 </script>
