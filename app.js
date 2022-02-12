@@ -94,8 +94,9 @@ app.get('/login/refresh', async (req, res) => {
 })
 
 app.get('/logout', (req, res) => {
-    res.clearCookie("bearer_token")
-    res.clearCookie("refresh_token")
+    var json = req.headers.cookie.split(';')
+    res.clearCookie("bearer_token", json[0].replace('bearer_token=', ''))
+    res.clearCookie("refresh_token", json[1].replace(' refresh_token=', ''))
     res.render('logout.html')
 })
 
